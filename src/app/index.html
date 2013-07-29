@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title>RSS Panels</title>
+	<link href="css/bootstrap_less.css" rel="stylesheet" type="text/css"></head>
+	<link href="css/rss_panels.css" rel="stylesheet" type="text/css"></head>  
+</head>
+<body>
+<div class="row-fluid header">
+	<div class="span8 left_header"><h2>RSS Panels</h2></div>
+	<div class="span4 right_header"><h4>Backbone.js | Google Feed API | RequireJS | jQuery <br>Node.js + Connect</h4></div>
+</div>
+<div class="row-fluid main">
+	<div class="span8">
+		<div class="round_box clearfix" id="article_section">
+			<div class="clearfix">
+				<div class="pull-left panel-head-title"><h4>PANEL COLLECTION</h4></div>
+				<div class="pull-right">
+					<a href="/remove_all" id="remove_all_btn" class="btn btn-mini btn-danger panel_button"><i class="icon-remove icon-white"></i> Remove All</a> 
+					<a href="/refresh_all" id="refresh_all_btn" class="btn btn-mini btn-success panel_button"><i class="icon-refresh icon-white"></i> Refresh All</a>
+				</div>				
+				<div class="text-center panel-head-count" style="display:none;"><h5>ACTIVE PANELS: <span id="active_panels">0</span></h5></div>
+			</div>
+			<div id="article_test"></div>
+		</div>
+	</div>
+	<div class="span4">
+		<div class="round_box" id="feed_list_box">
+            <div class="searchListLabel">Popular News, Entertainment and Sports RSS feeds</div>
+			<div class="clearfix">		
+				<ul class="nav nav-pills pull-left default-list-notlast">
+	              <li class="dropdown">
+	                <a class="dropdown-toggle rss-toggle default-feed-toggle" id="rss_gen_dropdown" role="button" data-toggle="dropdown" href="#">News <b class="caret"></b></a>
+	                <ul id="rss_dropdown_list" class="dropdown-menu" role="menu">
+	                </ul>
+	              </li>
+	            </ul>
+				<ul class="nav nav-pills pull-left default-list-notlast">
+	              <li class="dropdown">
+	                <a class="dropdown-toggle rss-toggle default-feed-toggle" id="rss_ent_gen_dropdown" role="button" data-toggle="dropdown" href="#">Entertainment <b class="caret"></b></a>
+	                <ul id="rss_ent_dropdown_list" class="dropdown-menu" role="menu">
+	                </ul>
+	              </li>
+	            </ul>
+				<ul class="nav nav-pills pull-left">
+	              <li class="dropdown">
+	                <a class="dropdown-toggle rss-toggle default-feed-toggle" id="rss_sports_gen_dropdown" role="button" data-toggle="dropdown" href="#">Sports <b class="caret"></b></a>
+	                <ul id="rss_sports_dropdown_list" class="dropdown-menu" role="menu">
+	                </ul>
+	              </li>
+	            </ul>	            
+	        </div>
+            <div class="searchListLabel">Search for public RSS or Atom feeds</div>
+            <div id="searchList" class="form-search">
+				<input type="text" class="input-medium search-query" id="rssSearchInput">
+				<button type="submit" class="btn btn-primary">Search</button>
+				<div class="dropdown">
+   					<ul id="searchListDropdown" class="dropdown-menu" role="menu" aria-labelledby="dLabel"></ul>
+				</div>
+            </div>
+		</div>
+	</div>
+</div>
+<!-- DEFINE TEMPLATES -->
+<script id="rss_panel_template" type="text/template">	
+	<div class="clearfix">
+		<span class="badge pull-left"><%= panel_count %></span>
+		<a class="btn btn-mini btn-danger panel_button" id="remove_panel_btn" href="/remove_panel" data-toggle="tooltip" title="Remove Panel"><i class="icon-remove icon-white"></i></a>
+		<a class="btn btn-mini btn-success panel_button" id="refresh_panel_btn" href="/refresh_panel" data-toggle="tooltip" title="Refresh Panel"><i class="icon-refresh icon-white"></i></a>
+		<h4 class="text-center"><%= title %></h4>	
+	</div>
+	<p class="timestamp"> Updated: <%= timestamp %></p>
+	<p class="description"><%= description %>
+	<ul class="rss-feed">
+		<%
+            _.each(entries,function(entry){
+        %>
+				<li>
+					<a href="<%= entry.link %>" target="_blank"><%= entry.title %></a>
+					<br><%= entry.publishedDate %>
+					<br><%= entry.contentSnippet %>
+				</li>
+		<%
+            });
+        %>	
+	</ul>
+</script>
+<script data-main="js/main" src="js/lib/require.js"></script>
+</body>
+</html>
